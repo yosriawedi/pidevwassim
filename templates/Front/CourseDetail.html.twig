@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ressources du cours - {{ course.title }}{% endblock %}
+
+{% block body %}
+    <h1>Ressources pour le cours : {{ course.title }}</h1>
+
+    {% if ressources is empty %}
+        <p>Aucune ressource disponible pour ce cours.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Format</th>
+                    <th>Date de création</th>
+                    <th>Fichier</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ressource in ressources %}
+                    <tr>
+                        <td>{{ ressource.title }}</td>
+                        <td>{{ ressource.description }}</td>
+                        <td>{{ ressource.format }}</td>
+                        <td>{{ ressource.creationDate ? ressource.creationDate|date('d/m/Y') : 'N/A' }}</td>
+                        <td>
+                           <td>
+    <td>
+    {% if ressource.filePath %}
+    <a href="{{ asset(ressource.filePath) }}" target="_blank">Download File</a>
+    {% else %}
+        Aucun fichier
+    {% endif %}
+</td>
+
+</td>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
