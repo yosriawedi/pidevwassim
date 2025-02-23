@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    My Paniers
+{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+
+    <header class="mb-4 text-center">
+        <h1 class="display-5">All Paniers</h1>
+        <p class="text-muted mb-0">
+            Here you can view the contents of each Panier and the Courses inside.
+        </p>
+    </header>
+
+    {% if paniers is not empty %}
+        <div class="row gy-4">
+            {% for panier in paniers %}
+                <div class="col-12">
+                    <!-- Card for each Panier -->
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            
+                            <!-- Panier Title -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2 class="h4 mb-0 text-primary">
+                                    Panier #{{ panier.id }}
+                                </h2>
+                                {# Example: If you want an edit/delete link for each panier #}
+                                <!-- 
+                                <div>
+                                    <a href="{{ path('app_panier_edit', {id: panier.id}) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    <form method="post"
+                                          action="{{ path('app_panier_delete', {id: panier.id}) }}"
+                                          onsubmit="return confirm('Are you sure you want to remove this Panier?');"
+                                          style="display:inline;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ panier.id) }}">
+                                        <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                                -->
+                            </div>
+                            
+                            <!-- Courses in this Panier -->
+                            {% if panier.courses is not empty %}
+                                <div class="table-responsive">
+                                    <table class="table table-bordered align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Domain</th>
+                                                <th>Type</th>
+                                                <th>Price (TND)</th>
+                                                <th>Description</th>
+                                                <th>Creation Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for course in panier.courses %}
+                                                <tr>
+                                                    <td>{{ course.Title }}</td>
+                                                    <td>{{ course.Domain }}</td>
+                                                    <td>{{ course.Type }}</td>
+                                                    <td>
+                                                        {% if course.Price %}
+                                                            {{ course.Price }}
+                                                        {% else %}
+                                                            Free
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {{ course.Description|length > 50
+                                                            ? course.Description|slice(0,50) ~ '...'
+                                                            : course.Description
+                                                        }}
+                                                    </td>
+                                                    <td>{{ course.CreationDate|date('d-m-Y') }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted mb-0">No Courses in this Panier.</p>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">No Paniers have been created yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

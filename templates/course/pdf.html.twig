@@ -1,0 +1,68 @@
+{# templates/course/pdf.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Courses PDF</title>
+    <style>
+        /* Basic styling inlined is often better for Dompdf.
+           If you have advanced styling, ensure correct relative paths or inline everything. */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        .course {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        h2 {
+            margin: 0 0 10px;
+        }
+        .resources {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="text-align: center;">Courses & Resources</h1>
+
+{% for course in courses %}
+    <div class="course">
+        <h2>{{ course.Title }} (ID: {{ course.id }})</h2>
+        <p><strong>Domain:</strong> {{ course.Domain }}</p>
+        <p><strong>Type:</strong> {{ course.Type }}</p>
+        <p><strong>Price:</strong> 
+            {% if course.Price %}{{ course.Price }} TND{% else %}Free{% endif %}
+        </p>
+        <p><strong>Tutor:</strong> {{ course.Tutor }}</p>
+        <p><strong>Creation Date:</strong> 
+            {{ course.CreationDate ? course.CreationDate|date('Y-m-d') : '' }}
+        </p>
+        <p><strong>Description:</strong> {{ course.Description }}</p>
+
+        {# List resources #}
+        {% if course.Ressources is not empty %}
+            <p><strong>Resources:</strong></p>
+            <ul class="resources">
+                {% for ressource in course.Ressources %}
+                    <li>
+                        {{ ressource.title }} - {{ ressource.format }}
+                        ({{ ressource.Description|length > 50 
+                            ? ressource.Description|slice(0,50) ~ '...'
+                            : ressource.Description 
+                        }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p><em>No resources for this course.</em></p>
+        {% endif %}
+    </div>
+{% endfor %}
+
+</body>
+</html>

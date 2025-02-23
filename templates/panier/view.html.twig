@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    My Panier
+{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <h1 class="mb-4">My Panier</h1>
+
+    {% if panier is null or panier.courses is empty %}
+        <p>Your Panier is empty!</p>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Domain</th>
+                        <th>Type</th>
+                        <th>Price (TND)</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in panier.courses %}
+                        <tr>
+                            <td>{{ course.Title }}</td>
+                            <td>{{ course.Domain }}</td>
+                            <td>{{ course.Type }}</td>
+                            <td>
+                                {{ course.Price is not null ? course.Price : 'Free' }}
+                            </td>
+                            <td>
+                                {{ course.Description|length > 50
+                                    ? course.Description|slice(0, 50) ~ '...'
+                                    : course.Description
+                                }}
+                            </td>
+                            <td>
+                                {# "Remove from Panier" link calls the same toggle route #}
+                                <a href="{{ path('app_panier_toggle_course', {'courseId': course.id}) }}"
+                                   class="btn btn-danger btn-sm">
+                                    Remove
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TOTAL PRICE -->
+        <div class="text-end mt-3">
+            <h4>Total Price: {{ total }} TND</h4>
+        </div>
+
+        <!-- Payment Button Placeholder -->
+        <div class="mt-4 text-end">
+        <a href="{{ path('app_panier_checkout') }}"
+           class="btn btn-success">
+            Proceed to Payment
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

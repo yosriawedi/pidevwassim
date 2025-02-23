@@ -23,7 +23,7 @@ class RessourceType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Title',
             ])
-            ->add('description', TextareaType::class, [
+            ->add('Description', TextareaType::class, [
                 'label' => 'Description',
             ])
             ->add('format', ChoiceType::class, [
@@ -44,7 +44,8 @@ class RessourceType extends AbstractType
             ])
             ->add('courses', EntityType::class, [
                 'class' => Course::class,
-                'choice_label' => 'id', // Vous pouvez changer cela si besoin
+                'choice_label' => 'Title',  // or 'id' if you really want numeric IDs
+                'placeholder' => 'Select a course',
                 'label' => 'Course',
             ])
             ->add('file', FileType::class, [

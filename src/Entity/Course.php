@@ -66,11 +66,18 @@ class Course
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'Course')]
     private Collection $users;
 
+    /**
+     * @var Collection<int, Panier>
+     */
+    #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'courses')]
+    private Collection $paniers;
+
     public function __construct()
     {
         $this->ressources = new ArrayCollection();
         $this->student = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -238,6 +245,33 @@ class Course
     {
         if ($this->users->removeElement($user)) {
             $user->removeCourse($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->addCourse($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            $panier->removeCourse($this);
         }
 
         return $this;

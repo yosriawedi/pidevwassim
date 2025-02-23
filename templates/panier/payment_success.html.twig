@@ -1,0 +1,26 @@
+{# templates/panier/payment_success.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Payment Successful
+{% endblock %}
+
+{% block body %}
+<div class="container py-5 text-center">
+    <h1 class="display-4 text-success mb-4">Payment Successful!</h1>
+
+    <p class="lead">
+        Thank you for your purchase. Your payment has been processed successfully.
+    </p>
+
+    <hr class="my-4">
+
+    <p class="mb-4">
+        You can now continue exploring our platform or view your purchased courses.
+    </p>
+
+    <a href="{{ path('app_course_index_front') }}" class="btn btn-primary">
+        Return to Courses
+    </a>
+</div>
+{% endblock %}

@@ -1,6 +1,8 @@
 {% extends 'base2.html.twig' %}
 
-{% block title %}New Ressource{% endblock %}
+{% block title %}
+    Create New Ressource
+{% endblock %}
 
 {% block body %}
     <div class="main-panel">
@@ -10,10 +12,61 @@
             </div>
 
             <div class="form-container">
-                {{ include('ressource/_form.html.twig') }}
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                {# Title Field #}
+                <div class="form-group">
+                    {{ form_label(form.title, 'Title') }}
+                    {{ form_widget(form.title) }}
+                    {{ form_errors(form.title) }}
+                </div>
+
+                {# Description Field #}
+                <div class="form-group">
+                    {{ form_label(form.Description, 'Description') }}
+                    {{ form_widget(form.Description) }}
+                    {{ form_errors(form.Description) }}
+                </div>
+
+                {# Format (Choice) Field #}
+                <div class="form-group">
+                    {{ form_label(form.format, 'Format') }}
+                    {{ form_widget(form.format) }}
+                    {{ form_errors(form.format) }}
+                </div>
+
+                {# Creation Date Field #}
+                <div class="form-group">
+                    {{ form_label(form.creationDate, 'Creation Date') }}
+                    {{ form_widget(form.creationDate) }}
+                    {{ form_errors(form.creationDate) }}
+                </div>
+
+                {# Courses (EntityType) Field #}
+                <div class="form-group">
+                    {{ form_label(form.courses, 'Course') }}
+                    {{ form_widget(form.courses) }}
+                    {{ form_errors(form.courses) }}
+                </div>
+
+                {# File (Upload) Field #}
+                <div class="form-group">
+                    {{ form_label(form.file, 'Upload File') }}
+                    {{ form_widget(form.file) }}
+                    {{ form_errors(form.file) }}
+                </div>
+
+                {# Submit Button #}
+                <div class="form-group mt-4">
+                    <input type="submit" value="Save" class="btn btn-primary w-100">
+                </div>
+
+                {{ form_end(form) }}
 
                 <div class="button-group">
-                    <a href="{{ path('app_ressource_index') }}" class="btn-back">← Back to list</a>
+                    <a href="{{ path('app_ressource_index') }}" class="btn-back">
+                        ← Back to list
+                    </a>
                 </div>
             </div>
         </div>
@@ -42,7 +95,7 @@
         }
 
         /* Titre */
-        .page-title {
+        .page-header .page-title {
             color: #007BFF;
             text-align: center;
             font-size: 1.8rem;
